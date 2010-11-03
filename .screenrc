@@ -1,0 +1,86 @@
+#-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= #
+
+### Created by Brad Sims <tanfj@yahoo.com> 25/06/2004
+
+### I got tired of .screenrc's on the internet being so
+### poorly commented... So being a good GNUbie I took matters
+### into my own hands; and wrote this dotfile.
+
+# =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= #
+
+##    Explanation of hardstatus line    ##
+
+# Ignore the ' marks if you use these examples for yourself
+
+# Note that if you want to use the color brown under konsole
+# You actually use bright yellow (%{Y}).
+
+# Note the embeded space after the colon, I feel
+#  it just looks nicer with a blank between the
+#  text and console edge:
+#   '%{=b}%{G} Screens: '
+
+# This prints the window listing in blue:
+#   '%{b}%w'
+
+# This right-aligns what follows:
+#   '%='
+
+# This displays the time (hours and minutes) in 12hr format
+# and adds an AM/PM flag, in bold green:
+#   '%{G}%C%A'
+
+# This displays the day of the week:
+#   '%D'
+
+#This displays the date in Mon/day/year format:
+# and again I embeded a space to give me one space
+# between the text and console edge:
+#  '%M/%d/%Y '
+
+# The resultsing command give you a status line that
+#  looks like this:
+#   | Screens: 0* bash  <blanks zapped>         5:30PM  Fri, Jun/25/2004 |
+#  (The pipes indicate the edges of the xterm/console).
+
+# Green text, time, and date; windows in blue:
+hardstatus alwayslastline "%{=b}%{G} Screen(s): %{b}%w %=%{kG}%C%A  %D, %M/%d/%Y "
+#hardstatus string '%{= kg}[ %{G}%H %{g}][%= %{= kw}%?%-Lw%?%{=b kR}(%{W}%n*%f %t%?(%u)%?%{=b kR})%{= kw}%?% Lw%?%?%= %{g}]%{=b C}[ %d %M %c ]%{W}'
+
+
+# =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= #
+
+##    Some general options    ##
+
+# Turn off start message:
+startup_message off
+
+# Set messages timeout to one second:
+msgwait 1
+
+# =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= #
+
+##    Keybindings    ##
+
+# bind <F7> to detach screen from this terminal
+# bind <F8> to kill current session
+# bind <F10> to create a new screen
+# bind <F9> to rename an existing window
+# bind <F11> to move to previous window
+# bind <F12> to move to next window
+bindkey -k k6 detach
+bindkey -k k7 kill
+# space in keyboard
+#bindkey -k k; screen
+bindkey -k k; screen
+bindkey -k k8 title
+#bindkey -k F1 prev
+bindkey -k k9 prev
+bindkey -k k7 next
+
+#screen -t rootshell 0 su
+#screen -t sshshell 9 ssh kashyap@10.6.16.24 -L 7000:proxy.iitm.ac.in:3128
+screen -t bash1 1
+screen -t bash2 2
+
+# =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= #
