@@ -10,16 +10,17 @@ syntax enable
 "rcolorscheme marklar 
 "colorscheme desert
 "colorscheme peaksea
-set guifont=ProggyCleanTTSZ\ 14
+set guifont=Droid\ Sans\ Mono
 if has ("gui_running")
 	set background=light
-	colorscheme desert
-	"colors koehler
+	colorscheme habiLight
+	"desertEx PapayaWhip breeze autumn nuvola habilight
 else
 	set background=dark
+	colorscheme wombat
 endif
 
-set number ai sm js
+set number js
 "opens a quickfix error window with IDE navigation.
 "copen 4
 set linespace=2
@@ -36,8 +37,11 @@ set makeprg=gcc
 set smartindent
 set autoindent
 set cinwords="if,else,do,while,for,switch,begin,end"
+
 set tabstop=3
 set shiftwidth=3
+"set expandtab "will replace tab-spaces with spaces alone.
+
 set backspace=indent,eol,start "allow backspacing over everything in insert mode
 
 "set undolevels=1000 "remembering a 1000 undos
@@ -46,28 +50,35 @@ set visualbell
 
 set wildmenu
 set wildmode=list:longest,full
+set wildignore=*.o,*.lo "ignore matching files when using tab complete
 
 set showmode
-set laststatus=2
-set statusline=[%L],[%t],(%l,%c)
+set laststatus=2 "never=0; only if multiple windows=1; always=2
+set statusline=[%L],[%t],(%l,%c)%m
+"another sample statusline
+"set statusline=(%l,%c) %F%m%r%h%w\ [FORMAT=%{&ff}]\ [TYPE=%Y]\ [ASCII=\%03.3b]\ [HEX=\%02.2B]\ [POS=%04l,%04v][%p%%]\ [LEN=%L]
+
 set cmdheight=1
 
+"search for .viminfo file in ~
 set viminfo='500,f1,:100,/100 "massively detailed viminfo file
 
 "set cursorline
 "highlight cursorline guibg=#333333
 set showmatch
 set ruler
-set title
+set title titlestring=%<%F%=%l/%L-%P titlelen=70
+
 set ttyfast
 
 set foldmethod=marker  "the three '{'s are the fold demarcations
-set foldenable
+"set foldenable
 
 "set whichwrap=<,>,h,l,[,]
-"set expandtab
 "set autochdir
-"set hlsearch
+
+set hlsearch 
+"also :noh will stop highlighting
 set ignorecase
 set smartcase
 "set incsearch "make search act like search in modern browsers
@@ -87,24 +98,27 @@ nnoremap Y y$
 " mapping for saving and closing files 
 imap <F2> <ESC>:w<RETURN>i
 imap <F3> <ESC>:shell<RETURN>
-imap <F4> <ESC>:q<RETURN>
+"the one thing that I took from Gedit?
+imap <C-K> <ESC>:noh<RETURN> 
 imap \\ <ESC>
 imap <F8> <ESC>:!./a.out<RETURN>
 
 " mapping for compiling and executing files
 "imap <F7> <ESC>:!g++ %<RETURN>
-nmap 8 <ESC>:make %<CR>
+"nmap 8 <ESC>:make %<CR>
 nmap <F9> <ESC>:!./a.out<RETURN>
 nmap <silent> <C-T> :tabnew <RETURN>
-map <F2> <ESC>:w<RETURN>
-map <F3> <ESC>:shell<RETURN>
-map <F4> <ESC>:q<RETURN>
-map ,q <ESC>:q<RETURN>
-map ,wq <ESC>:wq<RETURN>
-map ,w <ESC>:w<RETURN>
-map <TAB> gt
-map <S-TAB> gT
+nmap <F2> <ESC>:w<RETURN>
+nmap <F3> <ESC>:shell<RETURN>
+nmap <C-K> <ESC>:noh<RETURN>
+nmap ,q <ESC>:q<RETURN>
+nmap ,wq <ESC>:wq<RETURN>
+nmap ,w <ESC>:w<RETURN>
+nmap <TAB> gt
+nmap <S-TAB> gT
+nmap \\ <ESC> 
 
+vmap \\ <ESC>
 vmap <C-c> :s/^/\/\/<CR>
 vmap <C-u> :s/\/\//<CR>
 "map <C-k> :set nohlsearch<RETURN> 
@@ -117,15 +131,15 @@ vmap <C-u> :s/\/\//<CR>
 "highlight Comment cterm=italic ctermfg=DarkGrey
 
 " including header files for c++ coding
-abbreviate hpps #include <iostream><CR>#include <cstdlib><CR>#include <cmath><CR>
+abbreviate cpps #include <iostream><CR>#include <cstdlib><CR>#include <cmath><CR>
 					 \#include <cstring><CR>#include <string><CR>#include <cstdio><CR>
 					 \#include <vector><CR>#include <map><CR>#include <stack><CR>
 					 \using namespace std; <CR><CR>int main()<CR>{<CR><CR>return 0;<CR>}
 
 "temporary latex abbreviations; should install vim-latex plugin soon.
-abbreviate itemize \begin{itemize}<CR>\end{itemize}
-abbreviate enumerate \begin{enumerate}<CR>\end{enumerate}
-abbreviate frame \begin{frame}<CR>\end{frame}
+"abbreviate itemize \begin{itemize}<CR>\end{itemize}
+"abbreviate enumerate \begin{enumerate}<CR>\end{enumerate}
+"abbreviate frame \begin{frame}<CR>\end{frame}
 
 "shebangs - Ricky Martin
 abbreviate pysh #!/usr/bin/python
@@ -149,14 +163,23 @@ vnoremap <silent> # :<C-U>
 "file type, to check key in :map to see the current compiler/interpreter
 "An alternative way to achieve the same thing would be without using autocmd.
 "make a key binding always invoke :make %; after setting makeprg
-au BufEnter,Bufnew *.c map <F7> :!gcc -g % <CR>
-au BufEnter,Bufnew *.cpp map <F7> :!g++ -g % <CR>
-au BufEnter,Bufnew *.py map <F7> :!python % <CR>
-au BufEnter,Bufnew *.tex map <F7> :!pdflatex % <CR>
-au BufEnter,Bufnew *.tex setlocal spell spelllang=en_us
+au BufEnter,Bufnew *.c imap <F7> <ESC>:w<CR> :!gcc -g % <CR>
+au BufEnter,Bufnew *.c map <F7> :w<CR> :!gcc -g % <CR>
+
+au BufEnter,Bufnew *.cpp imap <F7> <ESC>:w<CR> :!g++ -g % <CR>
+au BufEnter,Bufnew *.cpp map <F7> :w<CR> :!g++ -g % <CR>
+
+au BufEnter,Bufnew *.py imap <F7> <ESC>:w<CR> :!python % <CR>
+au BufEnter,Bufnew *.py map <F7> :w<CR> :!python % <CR>
+
+au BufEnter,Bufnew *.tex imap <F7> <ESC>:w<CR> :!pdflatex %<CR>
+au BufEnter,Bufnew *.tex map <F7> :w<CR> :!pdflatex % <CR>
+"au BufEnter,Bufnew *.tex setlocal spell spelllang=en_us
 
 autocmd Bufnew,Bufnew *.c set cindent
 autocmd Bufnew,Bufnew *.cpp set cindent
+autocmd Bufnew,Bufnew *.py set cindent
+
 autocmd BufEnter,Bufnew *.py set omnifunc=pythoncomplete#Complete
 autocmd BufEnter,Bufnew *.html set omnifunc=htmlcomplete#CompleteTags
 autocmd BufEnter,Bufnew *.css set omnifunc=csscomplete#CompleteCSS

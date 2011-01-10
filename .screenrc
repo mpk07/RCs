@@ -82,5 +82,6 @@ bindkey -k k7 next
 #screen -t sshshell 9 ssh kashyap@10.6.16.24 -L 7000:proxy.iitm.ac.in:3128
 screen -t bash1 1
 screen -t bash2 2
+screen -t bash3 3
 
 # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= #

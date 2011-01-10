@@ -2,6 +2,18 @@ source /etc/bash.bashrc
 # source /home/mpkpawan07/.bashrc
 # my bashrc file
 # Get the aliases and functions
+# echo $0 for the shell name; echo $COLORTERM for the terminal emulator
+
+# Save all history
+# shopt -s histappend
+# PROMPT_COMMAND='history -a'
+
+# Ignore duplicate values, as well as a few common commands
+export HISTCONTROL="ignoredups"
+export HISTIGNORE="&:ls:[bf]g:exit"
+
+# this will ignore simple mistakes such as typing iotp instead of opt
+shopt -s cdspell
 
 # User specific environment and startup programs
 PATH=$PATH:~/bin:/scratch/mendeleydesktop-0.9.7-linux-x86_64/bin
@@ -29,11 +41,13 @@ export NS=/scratch/ns-allinone-2.28/ns-2.34;
 export NSVER=2.28
 
 #the -q option is to supress error messages. eg: no permissions to access a particular file.
+alias gateway='ping 10.6.5.254'
+
 alias locate='locate -q'
 
 alias gcc='gcc -g'
 alias g++='g++ -g'
-alias chrome='google-chrome --proxy-server=proxy.iitm.ac.in:3128'
+alias google-chrome='google-chrome --proxy-server=localhost:1989'
 
 alias madhu='ssh madhuvanti'
 alias dcf='ssh mpkpawan@10.6.15.112'
@@ -41,8 +55,10 @@ alias printer='ssh prnt@192.168.1.136'
 alias gf='fg'
 alias refresh='source ~/.bashrc'
 alias own='sudo chown -R mpkpawan07'
+alias CNTLM='sudo /etc/init.d/cntlm start'
 
 # directory jumps
+alias exps='cd ~/Documents/coding/experiments/'
 alias dcd='cd /scratch/DCDownloads/'
 alias proj='cd /project/mpkpawan07/'
 alias scratch='cd /scratch'
@@ -68,7 +84,6 @@ alias ~='cd'
 alias su='su -'
 alias quit='exit'
 alias cpu='cat /proc/cpuinfo'
-alias IP='/sbin/ifconfig'
 alias ls='ls -F --color=auto --group-directories-first'
 alias checkout="svn co svn+ssh://svn.rise.cse.iitm/project/igcar"
 alias m='clear && make'
@@ -79,6 +94,7 @@ alias 3='./3D'
 alias ..='cd ..'
 alias x=exit
 alias ll='ls -ltrh'
+alias kk='ls -ltrh'
 alias dir='dir --color=auto --group-directories-first'
 alias la='ls -latrh'
 alias lsd='ls -l | grep dr'
@@ -93,7 +109,33 @@ alias ks='ls'
 alias lsb='ls -B'
 alias setwall='fbsetbg -f $1'
 alias yo='cat ~/.yofile'
-alias grep='grep -n'
+alias grep='egrep -n'
+
+function IP ()
+{
+	echo "Network configuration"
+	/sbin/ifconfig | awk '/inet/'
+}
+
+function _ssh ( )
+{
+	if [ $# -eq 0 ]; then
+		echo "_ssh HELP:"
+		echo "Root Login Usage: rssh <host>" 
+		echo "Other Users Usage: rssh <username> <host>"
+	elif [ $# -eq 1 -a $1 = "printer" ]; then
+		ssh prnt@192.168.1.136
+	elif [ $# -eq 1 ]; then
+		ssh root@$1
+	elif [ $# -eq 2 -a $1 = "me" ]; then
+		ssh mpkpawan07@$2
+	elif [ $# -eq 2 ]; then
+		ssh $1@$2
+	fi
+}
+
+export -f _ssh
+export -f IP
 
 del ( )
 {
@@ -126,9 +168,9 @@ Cyan="$(tput setaf 6)"
 CyanBG="$(tput setab 6)"
 LightCyan="$(tput bold ; tput setaf 6)"
 NC="$(tput sgr0)" 
-# No Color
+#No Color
 
-PS1='\[$LightRed\][\A] \[$Blue\]\h\[$Green\]:{\W}# \[$NC\]'
+PS1='\[$LightRed\][\A] \[$Blue\]\h\[$Green\]:{\W}% \[$NC\]'
 # \t - current time in 24-hour format
 # \h - host name
 # \! - command's number in history
