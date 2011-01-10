@@ -1,0 +1,77 @@
+;; Emacs: This is a -*- lisp -*- file.
+;;; .stumpwmrc
+
+(in-package stumpwm)
+(message "Loading RC file!")
+(run-shell-command "rm ~/.xsession-errors")
+
+(define-key *top-map* (kbd "F12") "mode-line")
+(define-key *top-map* (kbd "H-m") "exec gnome-terminal -e alsamixer")
+
+(defcommand gvim () ()
+  "Start Gvim or switch to it, if it is already running."
+  (run-or-raise "gvim"  '(:class "Gvim")))
+(define-key *root-map* (kbd "M-v") "run-shell-command gvim")
+(define-key *root-map* (kbd "v") "gvim")
+(define-key *root-map* (kbd "e") "emacs")
+
+(defcommand firefox () ()
+  "Start Firefox or switch to it, if it is already running."
+  (run-or-raise "iceweasel" '(:class "Iceweasel")))
+(define-key *root-map* (kbd "f") "firefox")
+(define-key *root-map* (kbd "M-f") "run-shell-command firefox")
+
+(defcommand gnome-terminal () ()
+  "Start an gnome-terminal instance or switch to it, if it is already running."
+  (run-or-raise "gnome-terminal" '(:instance "gnome-terminal")))
+
+(define-key *root-map* (kbd "M-c") "run-shell-command gnome-terminal")
+(define-key *root-map* (kbd "c") "gnome-terminal")
+
+(define-key *root-map* (kbd "M-Q") "quit")
+
+;(define-key *root-map* (kbd "L") "exec xscreensaver-command -l")
+
+(define-key *root-map* (kbd "M-l") "exec xset dpms force off")
+
+(set-font "-unknown-Droid Sans Mono-normal-normal-normal-*-*-*-*-*-m-0-iso10646-1")
+
+;displaying time in the mode-line
+(setf *screen-mode-line-format*
+      (list '(:eval (run-shell-command "date '+%R, %F %a'|tr -d [:cntrl:]" t)) " | [^B%n^b] %W"))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(define-key *top-map* (kbd "H-a") "time")	; shows the time; originally c-t a
+(define-key *top-map* (kbd "H-c") "exec gcalctool")
+(define-key *top-map* (kbd "H-e") "exec thunar")
+(define-key *top-map* (kbd "H-g") "exec gvim")
+(define-key *top-map* (kbd "H-l") "exec xscreensaver-command -l")
+(define-key *top-map* (kbd "H-m") "exec rhythmbox")
+(define-key *top-map* (kbd "H-p") "exec linuxdcpp")
+(define-key *top-map* (kbd "H-r") "colon") ;this prompt takes only stumpwm commands
+(define-key *top-map* (kbd "H-R") "exec") ;this is equivalent of fbrun
+(define-key *top-map* (kbd "H-s") "exec gvim /home/mpkpawan07/.stumpwmrc")
+(define-key *top-map* (kbd "H-t") "exec gnome-terminal")
+(define-key *top-map* (kbd "H-v") "exec gnome-terminal -e alsamixer")
+(define-key *top-map* (kbd "H-w") "exec fbsetbg -f -r /home/mpkpawan07/Pictures")
+(define-key *top-map* (kbd "H-x") "exec xterm")
+(define-key *top-map* (kbd "H-u") "exec urxvt -e /bin/zsh")
+
+
+(define-key *top-map* (kbd "H-X") "only")
+
+; adjustment of volume in alsamixer
+(define-key *top-map* (kbd "H-Up") "exec amixer -c 0 set PCM 1dB+")
+(define-key *top-map* (kbd "H-Down") "exec amixer -c 0 set PCM 1dB-")
+
+; movement between workspaces
+(define-key *top-map* (kbd "H-Left") "gprev")
+(define-key *top-map* (kbd "H-Right") "gnext")
+
+; switching between windows in the same workspace
+(define-key *top-map* (kbd "M-TAB") "pull-hidden-next")
+
+(define-key *top-map* (kbd "C-TAB") "fnext")
+(define-key *top-map* (kbd "C-ISO_Left_Tab") "fother") ;not the same as fprev
+
