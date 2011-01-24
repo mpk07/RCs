@@ -40,38 +40,56 @@
 (setf *screen-mode-line-format*
       (list '(:eval (run-shell-command "date '+%R, %F %a'|tr -d [:cntrl:]" t)) " | [^B%n^b] %W"))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;My customizations;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (define-key *top-map* (kbd "H-a") "time")	; shows the time; originally c-t a
 (define-key *top-map* (kbd "H-c") "exec gcalctool")
 (define-key *top-map* (kbd "H-e") "exec thunar")
+(define-key *top-map* (kbd "H-E") "exec emacs")
+(define-key *top-map* (kbd "H-f") "exec firefox")
 (define-key *top-map* (kbd "H-g") "exec gvim")
+(define-key *top-map* (kbd "H-G") "exec gimp")
+(define-key *top-map* (kbd "H-i") "exec inkscape")
 (define-key *top-map* (kbd "H-l") "exec xscreensaver-command -l")
 (define-key *top-map* (kbd "H-m") "exec rhythmbox")
 (define-key *top-map* (kbd "H-p") "exec linuxdcpp")
-(define-key *top-map* (kbd "H-r") "colon") ;this prompt takes only stumpwm commands
-(define-key *top-map* (kbd "H-R") "exec") ;this is equivalent of fbrun
+(define-key *top-map* (kbd "H-r") "colon") 			;this prompt takes only stumpwm commands
+(define-key *top-map* (kbd "H-R") "exec")  			;this is equivalent of fbrun in fluxbox or equal to Alt+F2 in gnome environment
 (define-key *top-map* (kbd "H-s") "exec gvim /home/mpkpawan07/.stumpwmrc")
+(define-key *top-map* (kbd "H-S") "colon loadrc")  ; carriage return to be added
 (define-key *top-map* (kbd "H-t") "exec gnome-terminal")
+(define-key *top-map* (kbd "H-T") "exec totem")
 (define-key *top-map* (kbd "H-v") "exec gnome-terminal -e alsamixer")
-(define-key *top-map* (kbd "H-w") "exec fbsetbg -f -r /home/mpkpawan07/Pictures")
+(define-key *top-map* (kbd "H-V") "exec vlc")
+(define-key *top-map* (kbd "H-w") "exec fbsetbg -r /home/mpkpawan07/Pictures/wallpapers/")
 (define-key *top-map* (kbd "H-x") "exec xterm")
 (define-key *top-map* (kbd "H-u") "exec urxvt -e /bin/zsh")
 
-
-(define-key *top-map* (kbd "H-X") "only")
-
 ; adjustment of volume in alsamixer
-(define-key *top-map* (kbd "H-Up") "exec amixer -c 0 set PCM 1dB+")
-(define-key *top-map* (kbd "H-Down") "exec amixer -c 0 set PCM 1dB-")
+(define-key *top-map* (kbd "H-Up") "exec amixer -c 0 set PCM 1dB+")		; Win+Up
+(define-key *top-map* (kbd "H-Down") "exec amixer -c 0 set PCM 1dB-")	; Win+Down
 
-; movement between workspaces
-(define-key *top-map* (kbd "H-Left") "gprev")
-(define-key *top-map* (kbd "H-Right") "gnext")
+; workspace navigation
+; Note: ISO_Left_Tab = Shift+Tab
+(define-key *top-map* (kbd "H-1") "gselect 1")         ; Win+1 = 1st Workspace
+(define-key *top-map* (kbd "H-2") "gselect 2")         ; Win+2 = 2nd Workspace
+(define-key *top-map* (kbd "H-3") "gselect 3")         ; Win+3 = 3rd Workspace
+(define-key *top-map* (kbd "H-4") "gselect 4")         ; Win+4 = 4th Workspace
+(define-key *top-map* (kbd "H-5") "gselect 5")         ; Win+5 = 5th Workspace
 
-; switching between windows in the same workspace
-(define-key *top-map* (kbd "M-TAB") "pull-hidden-next")
+(define-key *top-map* (kbd "H-TAB") "gnext")           ; Win+Tab = Next Workspace
+(define-key *top-map* (kbd "H-Right") "gnext")			 ; Win+Tab = Next Workspace
+(define-key *top-map* (kbd "H-ISO_Left_Tab") "gprev")  ; Win+Shift+Tab = Previous Workspace
+(define-key *top-map* (kbd "H-Left") "gprev")          ; Win+Shift+Tab = Previous Workspace
 
-(define-key *top-map* (kbd "C-TAB") "fnext")
-(define-key *top-map* (kbd "C-ISO_Left_Tab") "fother") ;not the same as fprev
+(define-key *top-map* (kbd "H-X") "only")					 ; Win+Shift+X = Maximise current window
 
+; window navigation
+(define-key *top-map* (kbd "M-TAB") "pull-hidden-next")						; Alt+Tab = Next Window
+(define-key *top-map* (kbd "M-ISO_Left_Tab") "pull-hidden-previous")		; Alt+Shift+Tab = Previous Window
+
+; tile navigation
+(define-key *top-map* (kbd "C-TAB") "fnext")													; Ctrl+Tab = Next tile
+(define-key *top-map* (kbd "C-ISO_Left_Tab") "fother") ;not the same as fprev		; Ctrl+Shift+Tab = Previous Tile	
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
